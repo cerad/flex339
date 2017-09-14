@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    App\Basic\Index\IndexAction:
+        public: true
+
+    App\Basic\Welcome\WelcomeAction:
+        #tags: ['controller.service_arguments']
+        public: true

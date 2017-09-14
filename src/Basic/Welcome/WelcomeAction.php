@@ -12,6 +12,6 @@ class WelcomeAction
 
     public function __invoke(Request $request) : Response
     {
-        return new Response("Welcome 2");
+        return new Response("Welcome 3");
     }
 }
