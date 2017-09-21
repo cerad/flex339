@@ -57,5 +57,9 @@ class Kernel extends BaseKernel
             $routes->import($confDir.'/routes/'.$this->environment.'/**/*'.self::CONFIG_EXTS, '/', 'glob');
         }
         $routes->import($confDir.'/routes'.self::CONFIG_EXTS, '/', 'glob');
+
+        $srcDir = dirname(__DIR__) . '/src';
+        $routes->import($srcDir.'/User/routes'.self::CONFIG_EXTS, '/user', 'glob');
+
     }
 }

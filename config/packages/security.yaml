@@ -1,7 +1,13 @@
 security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
     # https://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+        in_memory:
+            memory:
+                users:
+                    admin: { password: admin, roles: 'ROLE_ADMIN' }
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -9,10 +15,21 @@ security:
         main:
             anonymous: ~
 
-            # activate different ways to authenticate
+            form_login:
+                provider:   in_memory
+                login_path: user_login
+                check_path: user_login_check
 
-            # http_basic: ~
-            # https://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+                default_target_path: basic_welcome
 
-            # form_login: ~
-            # https://symfony.com/doc/current/cookbook/security/form_login_setup.html
+                username_parameter:  username
+                password_parameter:  password
+
+                csrf_parameter:       csrf_token
+                csrf_token_id:        authenticate
+                csrf_token_generator: security.csrf.token_manager
+
+            logout:
+                path:   user_logout
+                target: basic_welcome
+

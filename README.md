@@ -45,3 +45,19 @@ I can make an action trait with a setServices(router,etc) and get it to autowire
 Might be better to have RouterTrait and SecurityTrait
 ActionTrait is used by Controller,Form and View
 
+composer create-project "symfony/skeleton:^3.3" sec339
+cd sec339
+composer require console
+composer require security-bundle
+bin/console debug:container --show-private security
+
+composer create-project symfony/framework-standard-edition std339
+
+So in my user routes I have
+user_login:
+    path: /login
+    defaults: { _controller: 'App\Basic\Welcome\WelcomeAction' }
+    
+I think I can just set the path to / and drop the controller or I could implement
+And actual login controller which just focuese on login help.
+Be nice to avoid an actual link to the app code.
