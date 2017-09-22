@@ -1,6 +1,12 @@
 doctrine:
     dbal:
-        url: '%env(DATABASE_URL)%'
+        default_connection: default
+        connections:
+            default:
+                url: '%env(DEFAULT_DATABASE_URL)%'
+            users:
+                url: '%env(USER_DATABASE_URL)%'
+                options: { 20: false } # PDO::ATTR_EMULATE_PREPARES
 #    orm:
 #        auto_generate_proxy_classes: '%kernel.debug%'
 #        naming_strategy: doctrine.orm.naming_strategy.underscore

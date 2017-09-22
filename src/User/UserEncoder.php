@@ -29,7 +29,7 @@ class UserEncoder extends MessageDigestPasswordEncoder
 
         // Legacy, be nice to force an update
         if ($encoded == md5($raw)) return true;
-        
+
         // Oops
         return false;
     }

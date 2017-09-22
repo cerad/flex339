@@ -29,21 +29,21 @@ class UserProvider implements UserProviderInterface
 
     public function __construct
     (
-        $projectKey,
-        Connection $userConn,
-        Connection $projectPersonConn,
-        $users = []
+        //$projectKey,
+        Connection $userConn
+        //Connection $projectPersonConn,
+        //$users = []
     )
     {
-        $this->projectKey        = $projectKey;
-        $this->projectPersonConn = $projectPersonConn;
+        //$this->projectKey        = $projectKey;
+        //$this->projectPersonConn = $projectPersonConn;
 
-        $this->users    = $users;
+        //$this->users    = $users;
         $this->userConn = $userConn;
 
-        foreach($users as $username => $user) {
-            $this->usersMap[(int)$user['id']] = $username;
-        }
+        //foreach($users as $username => $user) {
+        //    $this->usersMap[(int)$user['id']] = $username;
+        //}
     }
     /**
      * @return QueryBuilder
@@ -80,6 +80,13 @@ class UserProvider implements UserProviderInterface
         if (!$row) {
             return null;
         }
+        $row['roles'] = explode(',',$row['roles']);
+        $user = User::createFromArray($row); //dump($user); die();
+        return $user;
+
+        dump($row);die('user row');
+        return null;
+
         $user = new User();
         $user['id']       = $row['id'];
         $user['name']     = $row['name'];
@@ -183,7 +190,7 @@ class UserProvider implements UserProviderInterface
             throw new UnsupportedUserException();
         }
         /** @var User $user */
-        $userId = $user['id'];
+        $userId = $user->id;
 
         $qb = $this->createUserQueryBuilder();
         $qb->where(('user.id = ?'));
@@ -192,14 +199,6 @@ class UserProvider implements UserProviderInterface
         if ($user) {
             return $user;
         }
-        // This is cleaner than using a query builder but takes an extra query
-        /*
-        $sql  = 'SELECT username FROM users WHERE id = ?';
-        $stmt = $this->userConn->executeQuery($sql,[$userId]);
-        $row = $stmt->fetch();
-        if ($row) {
-            return $this->loadUserByUsername($row['username']);
-        }*/
         // Check memory
         $username = isset($this->usersMap[$userId]) ? $this->usersMap[$userId] : null;
         if ($username) {
@@ -209,6 +208,7 @@ class UserProvider implements UserProviderInterface
     }
     public function supportsClass($class)
     {
+        dump('Supports . $class');die('supports');
         $userClass = User::class;
         return ($class instanceOf $userClass) ? true: false;
     }

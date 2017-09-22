@@ -52,7 +52,7 @@ EOT;
     <label for="user_login_username">Email</label>
     <input 
       type="text" id="user_login_username" class="form-control" required tabIndex="1"
-      name="username" value="{$lastUsername}" required placeholder="zAYSO Email" />
+      name="username" value="{$lastUsername}" placeholder="zAYSO Email" />
   </div>
   <div class="form-group">
     <label for="user_login_password" "> 
@@ -61,7 +61,7 @@ EOT;
     </label>
     <input 
       type="password" id="user_login_password" class="form-control" required tabIndex="2"
-      name="password" value="" required placeholder="********" />
+      name="password" value="" placeholder="********" />
   </div>
   <div class="form-group">
     <input type="hidden" name="csrf_token" value="{$csrfToken}" />

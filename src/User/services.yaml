@@ -10,3 +10,6 @@ services:
 
     Zayso\User\UserEncoder:
         $master: '%env(USER_MASTER_PASSWORD)%'
+
+    Zayso\User\UserProvider:
+        $userConn: '@doctrine.dbal.users_connection'

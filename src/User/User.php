@@ -2,12 +2,14 @@
 namespace Zayso\User;
 
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class User implements AdvancedUserInterface, \Serializable
+class User implements AdvancedUserInterface, \Serializable, EquatableInterface
 {
 
     // These should be all be private but phpstorm complains when they are unused
-    protected $id;
+    public    $id;
     private   $name;
     protected $email;
     private   $username;
@@ -32,7 +34,6 @@ class User implements AdvancedUserInterface, \Serializable
         'username'      => 'string',
         'salt'          => 'string',
         'password'      => 'string',
-        'passwordToken' => 'string',
         'enabled'       => 'bool',
         'locked'        => 'bool',
         'roles'         => 'array',
@@ -101,13 +102,15 @@ class User implements AdvancedUserInterface, \Serializable
     {
         return $this->name;
     }
+    public function isEqualTo(UserInterface $user)
+    {
+        return $this->username === $user->getUsername();
+    }
     public function serialize()
     {
         return serialize(array(
             $this->id,         // For refreshing
-            //$this->salt,
-            //$this->password,
-            $this->username,   // Debugging
+            $this->username,   // Equality
         ));
     }
     public function unserialize($serialized)
@@ -116,8 +119,6 @@ class User implements AdvancedUserInterface, \Serializable
 
         list(
             $this->id,
-            //$this->salt,
-            //$this->password,
             $this->username
             ) = $data;
 
