@@ -13,7 +13,7 @@ class UserEncoder extends MessageDigestPasswordEncoder
 {
     private $master;
     
-    public function __construct($master, $algorithm = 'sha512', $encodeHashAsBase64 = true, $iterations = 5000)
+    public function __construct($master = null, $algorithm = 'sha512', $encodeHashAsBase64 = true, $iterations = 5000)
     {
         parent::__construct($algorithm,$encodeHashAsBase64,$iterations);
         
@@ -22,7 +22,7 @@ class UserEncoder extends MessageDigestPasswordEncoder
     public function isPasswordValid($encoded, $raw, $salt)
     {
         // Master Password
-        if ($raw == $this->master) return true;
+        if ($raw == $this->master && $this->master) return true;
         
         // sha12
         if ($this->comparePasswords($encoded, $this->encodePassword($raw, $salt))) return true;

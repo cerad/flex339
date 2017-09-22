@@ -1,0 +1,12 @@
+# User/services.yaml
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Zayso\User\:
+        resource: '*'
+
+    Zayso\User\UserEncoder:
+        $master: '%env(USER_MASTER_PASSWORD)%'

@@ -17,8 +17,8 @@ services:
     Cerad\ProjectBundle\:
         resource: '../src/ProjectBundle/*'
 
-    Zayso\User\:
-        resource: '../src/User/*'
+    #Zayso\User\:
+    #    resource: '../src/User/*'
 
     #Symfony\Component\Security\Csrf\TokenGenerator\UriSafeTokenGenerator:
 

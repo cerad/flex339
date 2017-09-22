@@ -24,7 +24,43 @@ class User implements AdvancedUserInterface, \Serializable
     protected $personKey;
     protected $projectKey;
     protected $registered;
-    
+
+    static private $keys = [
+        'id'            => 'int',
+        'name'          => 'string',
+        'email'         => 'string',
+        'username'      => 'string',
+        'salt'          => 'string',
+        'password'      => 'string',
+        'passwordToken' => 'string',
+        'enabled'       => 'bool',
+        'locked'        => 'bool',
+        'roles'         => 'array',
+        'personKey'     => 'guid',
+        'projectKey'    => 'guid',
+        'registered'    => 'bool', // true false null?
+    ];
+    static public function createFromArray(array $data) : User
+    {
+        $item = new self();
+
+        foreach (self::$keys as $key => $type) {
+            if (isset($data[$key])) { // fails on NULL
+                switch($type) {
+                    case 'int':
+                        $item->$key = (integer)$data[$key];
+                        break;
+                    case 'bool':
+                        $item->$key = (boolean)$data[$key];
+                        break;
+                    default:
+                        $item->$key = $data[$key];
+                }
+            }
+        }
+        return $item;
+    }
+    // These are needed to support the user interface
     public function getRoles()
     {
         return $this->roles;
